@@ -1,0 +1,27 @@
+FROM node:slim
+MAINTAINER gaston.longhitano@logangroupservices.com
+
+ARG APPLICATION_ENV
+ENV APPLICATION_ENV ${APPLICATION_ENV:-prod}
+
+ARG DATABASE_HOST
+ENV DATABASE_HOST ${DATABASE_HOST:-x}
+
+ARG DATABASE_NAME
+ENV DATABASE_NAME ${DATABASE_NAME:-x}
+
+ARG DATABASE_USER
+ENV DATABASE_USER ${DATABASE_USER:-x}
+
+ARG DATABASE_PASSWORD
+ENV DATABASE_PASSWORD ${DATABASE_PASSWORD:-x}
+
+EXPOSE 3000
+
+WORKDIR /www
+
+COPY ./src /www
+
+RUN yarn install --frozen-lockfile --no-cache --production && yarn cache clean
+
+CMD ["node", "/www"]
